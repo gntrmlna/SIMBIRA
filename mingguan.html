@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laporan Mingguan</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+
+  <!-- Navbar Include -->
+  <div id="navbar"></div>
+
+  <!-- Container -->
+  <main class="p-6">
+    <ul class="space-y-4">
+      <li>
+        <a href="https://drive.google.com/file/d/xxxx" target="_blank"
+           class="block bg-white p-4 rounded-xl shadow hover:bg-blue-50">
+          📄 Laporan Minggu 1
+        </a>
+      </li>
+      <li>
+        <a href="https://drive.google.com/file/d/yyyy" target="_blank"
+           class="block bg-white p-4 rounded-xl shadow hover:bg-blue-50">
+          📄 Laporan Minggu 2
+        </a>
+      </li>
+    </ul>
+  </main>
+
+  <script>
+    fetch("navbar.html")
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById("navbar").innerHTML = data;
+        // Tombol kembali
+        document.getElementById("nav-extra").innerHTML = `
+          <a href="index.html" class="bg-white text-blue-600 px-4 py-2 rounded-lg hover:bg-gray-100">
+            ⬅ Kembali
+          </a>
+        `;
+        // Breadcrumb untuk kategori
+        document.getElementById("breadcrumb").innerHTML = `
+            <div class="breadcrumb">
+                <a href="index.html">Dashboard</a>
+                <span class="breadcrumb-separator">›</span>
+                <span>Laporan Mingguan</span>
+            </div>
+        `;
+      });
+  </script>
+</body>
+</html>

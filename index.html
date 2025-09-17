@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kasuari PAS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+
+  <!-- Navbar Include -->
+  <div id="navbar"></div>
+
+  <!-- Container -->
+  <main class="p-6">
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      
+      <a href="mingguan.html" class="block bg-white p-6 rounded-2xl shadow hover:shadow-lg hover:bg-blue-50 transition">
+        <h3 class="text-xl font-semibold mb-2">Laporan Mingguan</h3>
+        <p class="text-gray-600">Dokumen laporan kegiatan mingguan.</p>
+      </a>
+
+      <a href="bulanan.html" class="block bg-white p-6 rounded-2xl shadow hover:shadow-lg hover:bg-blue-50 transition">
+        <h3 class="text-xl font-semibold mb-2">Laporan Bulanan</h3>
+        <p class="text-gray-600">Dokumen laporan kegiatan bulanan.</p>
+      </a>
+
+      <a href="tahunan.html" class="block bg-white p-6 rounded-2xl shadow hover:shadow-lg hover:bg-blue-50 transition">
+        <h3 class="text-xl font-semibold mb-2">Laporan Tahunan</h3>
+        <p class="text-gray-600">Dokumen laporan kegiatan tahunan.</p>
+      </a>
+
+    </div>
+  </main>
+
+  <script>
+    fetch("navbar.html")
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById("navbar").innerHTML = data;
+        // Breadcrumb untuk dashboard
+        document.getElementById("breadcrumb").innerHTML = `
+            <div class="breadcrumb">
+                <span>Dashboard</span>
+            </div>
+        `;
+      });
+  </script>
+</body>
+</html>
