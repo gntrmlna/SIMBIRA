@@ -3,48 +3,246 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kasuari PAS</title>
+  <title>SIMBIRA – Sistem Manajemen Kinerja Ditjenpas Papua Barat</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 font-sans">
+<body class="bg-gray-100 font-[Poppins] text-gray-800">
 
-  <!-- Navbar Include -->
-  <div id="navbar"></div>
-
-  <!-- Container -->
-  <main class="p-6">
-    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      
-      <a href="mingguan.html" class="block bg-white p-6 rounded-2xl shadow hover:shadow-lg hover:bg-blue-50 transition">
-        <h3 class="text-xl font-semibold mb-2">Laporan Mingguan</h3>
-        <p class="text-gray-600">Dokumen laporan kegiatan mingguan.</p>
-      </a>
-
-      <a href="bulanan.html" class="block bg-white p-6 rounded-2xl shadow hover:shadow-lg hover:bg-blue-50 transition">
-        <h3 class="text-xl font-semibold mb-2">Laporan Bulanan</h3>
-        <p class="text-gray-600">Dokumen laporan kegiatan bulanan.</p>
-      </a>
-
-      <a href="tahunan.html" class="block bg-white p-6 rounded-2xl shadow hover:shadow-lg hover:bg-blue-50 transition">
-        <h3 class="text-xl font-semibold mb-2">Laporan Tahunan</h3>
-        <p class="text-gray-600">Dokumen laporan kegiatan tahunan.</p>
-      </a>
-
+  <!-- HEADER -->
+  <header class="bg-[#07213D] text-white py-5 px-6 flex justify-between items-center shadow-md">
+    <div>
+      <h1 class="text-xl font-semibold tracking-wide">SIMBIRA – Sistem Manajemen Kinerja</h1>
+      <p class="text-sm text-gray-300">Kanwil Ditjen Pemasyarakatan Papua Barat</p>
     </div>
+    <nav class="space-x-6 text-sm">
+      <a href="#" class="hover:text-cyan-300 transition">Beranda</a>
+      <a href="#" class="hover:text-cyan-300 transition">Laporan</a>
+      <a href="#" class="hover:text-cyan-300 transition">Panduan</a>
+      <a href="#" class="hover:text-cyan-300 transition">Tentang</a>
+    </nav>
+  </header>
+
+  <!-- MAIN SECTION -->
+  <main class="max-w-5xl mx-auto py-10 px-4 space-y-6">
+
+    <!-- CARD TEMPLATE -->
+    <div class="bg-white rounded-2xl shadow p-6 hover:shadow-lg transition relative">
+      <!-- Header row -->
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-3">
+        <div class="flex items-center gap-2">
+          <h2 class="text-[#07213D] font-semibold text-xl">📊 Laporan RAT RB</h2>
+          <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-md">✅ Tepat Waktu</span>
+        </div>
+        <p class="text-sm text-gray-500 mt-2 md:mt-0">Terakhir diperbarui: 12 Oktober 2025</p>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="w-full bg-gray-200 rounded-full h-3 mb-3">
+        <div class="h-3 rounded-full bg-gradient-to-r from-[#07213D] to-[#00B4D8]" style="width: 70%;"></div>
+      </div>
+      <p class="text-xs text-gray-500 mb-4">70% laporan UPT telah diterima</p>
+
+      <!-- Control section -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+        <div>
+          <label class="text-sm font-medium block mb-1">Pilih UPT:</label>
+          <select data-type="ratrb" class="dropdown border border-gray-300 rounded-md p-2 text-sm w-full focus:ring-2 focus:ring-[#07213D]">
+            <option value="">-- Pilih UPT --</option>
+            <option value="manokwari">Lapas Manokwari</option>
+            <option value="sorong">Lapas Sorong</option>
+            <option value="fakfak">Lapas Fakfak</option>
+            <option value="kaimana">Lapas Kaimana</option>
+            <option value="bapas-manokwari">Bapas Manokwari</option>
+            <option value="bapas-sorong">Bapas Sorong</option>
+          </select>
+        </div>
+
+        <div class="flex justify-end">
+          <a 
+            data-btn="ratrb" 
+            href="#" 
+            target="_blank"
+            class="bg-[#07213D] text-white py-2 px-6 rounded-md text-sm text-center mt-4 inline-block opacity-50 pointer-events-none transition">
+            Lihat Folder
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- DUPLIKAT KOMPONEN UNTUK LAPORAN LAIN -->
+    <div class="bg-white rounded-2xl shadow p-6 hover:shadow-lg transition relative">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-3">
+        <div class="flex items-center gap-2">
+          <h2 class="text-[#07213D] font-semibold text-xl">💰 Laporan Realisasi Anggaran</h2>
+          <span class="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded-md">⏳ Menunggu Update</span>
+        </div>
+        <p class="text-sm text-gray-500 mt-2 md:mt-0">Update: Harian</p>
+      </div>
+
+      <div class="w-full bg-gray-200 rounded-full h-3 mb-3">
+        <div class="h-3 rounded-full bg-gradient-to-r from-[#07213D] to-[#00B4D8]" style="width: 85%;"></div>
+      </div>
+      <p class="text-xs text-gray-500 mb-4">85% realisasi tercapai</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+        <div>
+          <label class="text-sm font-medium block mb-1">Pilih UPT:</label>
+          <select data-type="anggaran" class="dropdown border border-gray-300 rounded-md p-2 text-sm w-full focus:ring-2 focus:ring-[#07213D]">
+            <option value="">-- Pilih UPT --</option>
+            <option value="manokwari">Lapas Manokwari</option>
+            <option value="sorong">Lapas Sorong</option>
+            <option value="fakfak">Lapas Fakfak</option>
+            <option value="kaimana">Lapas Kaimana</option>
+            <option value="bapas-manokwari">Bapas Manokwari</option>
+            <option value="bapas-sorong">Bapas Sorong</option>
+          </select>
+        </div>
+
+        <div class="flex justify-end">
+          <a 
+            data-btn="anggaran" 
+            href="#" 
+            target="_blank"
+            class="bg-[#07213D] text-white py-2 px-6 rounded-md text-sm text-center mt-4 inline-block opacity-50 pointer-events-none transition">
+            Lihat Folder
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- PUBLIKASI -->
+    <div class="bg-white rounded-2xl shadow p-6 hover:shadow-lg transition relative">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-3">
+        <div class="flex items-center gap-2">
+          <h2 class="text-[#07213D] font-semibold text-xl">📰 Laporan Publikasi</h2>
+          <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-md">📢 Aktif</span>
+        </div>
+        <p class="text-sm text-gray-500 mt-2 md:mt-0">Target: ≥ 20 publikasi/bulan</p>
+      </div>
+
+      <div class="w-full bg-gray-200 rounded-full h-3 mb-3">
+        <div class="h-3 rounded-full bg-gradient-to-r from-[#07213D] to-[#00B4D8]" style="width: 60%;"></div>
+      </div>
+      <p class="text-xs text-gray-500 mb-4">60% dari target tercapai</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+        <div>
+          <label class="text-sm font-medium block mb-1">Pilih UPT:</label>
+          <select data-type="publikasi" class="dropdown border border-gray-300 rounded-md p-2 text-sm w-full focus:ring-2 focus:ring-[#07213D]">
+            <option value="">-- Pilih UPT --</option>
+            <option value="manokwari">Lapas Manokwari</option>
+            <option value="sorong">Lapas Sorong</option>
+            <option value="fakfak">Lapas Fakfak</option>
+            <option value="kaimana">Lapas Kaimana</option>
+            <option value="bapas-manokwari">Bapas Manokwari</option>
+            <option value="bapas-sorong">Bapas Sorong</option>
+          </select>
+        </div>
+
+        <div class="flex justify-end">
+          <a 
+            data-btn="publikasi" 
+            href="#" 
+            target="_blank"
+            class="bg-[#07213D] text-white py-2 px-6 rounded-md text-sm text-center mt-4 inline-block opacity-50 pointer-events-none transition">
+            Lihat Folder
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- LAPORAN TEKNIS -->
+    <div class="bg-white rounded-2xl shadow p-6 hover:shadow-lg transition relative">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-3">
+        <div class="flex items-center gap-2">
+          <h2 class="text-[#07213D] font-semibold text-xl">⚙️ Laporan Teknis</h2>
+          <span class="text-xs bg-red-100 text-red-700 px-2 py-1 rounded-md">📄 Dalam Proses</span>
+        </div>
+        <p class="text-sm text-gray-500 mt-2 md:mt-0">Bidang Pelayanan, Pembinaan, PK</p>
+      </div>
+
+      <div class="w-full bg-gray-200 rounded-full h-3 mb-3">
+        <div class="h-3 rounded-full bg-gradient-to-r from-[#07213D] to-[#00B4D8]" style="width: 40%;"></div>
+      </div>
+      <p class="text-xs text-gray-500 mb-4">40% laporan teknis terkumpul</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+        <div>
+          <label class="text-sm font-medium block mb-1">Pilih UPT:</label>
+          <select data-type="teknis" class="dropdown border border-gray-300 rounded-md p-2 text-sm w-full focus:ring-2 focus:ring-[#07213D]">
+            <option value="">-- Pilih UPT --</option>
+            <option value="manokwari">Lapas Manokwari</option>
+            <option value="sorong">Lapas Sorong</option>
+            <option value="fakfak">Lapas Fakfak</option>
+            <option value="kaimana">Lapas Kaimana</option>
+            <option value="bapas-manokwari">Bapas Manokwari</option>
+            <option value="bapas-sorong">Bapas Sorong</option>
+          </select>
+        </div>
+
+        <div class="flex justify-end">
+          <a 
+            data-btn="teknis" 
+            href="#" 
+            target="_blank"
+            class="bg-[#07213D] text-white py-2 px-6 rounded-md text-sm text-center mt-4 inline-block opacity-50 pointer-events-none transition">
+            Lihat Folder
+          </a>
+        </div>
+      </div>
+    </div>
+
   </main>
 
+  <!-- FOOTER -->
+  <footer class="bg-[#07213D] text-white text-center py-4 mt-10 text-sm">
+    © 2025 Kanwil Ditjen Pemasyarakatan Papua Barat. All rights reserved.
+  </footer>
+
   <script>
-    fetch("navbar.html")
-      .then(res => res.text())
-      .then(data => {
-        document.getElementById("navbar").innerHTML = data;
-        // Breadcrumb untuk dashboard
-        document.getElementById("breadcrumb").innerHTML = `
-            <div class="breadcrumb">
-                <span>Dashboard</span>
-            </div>
-        `;
+    // Mapping Google Drive folder links untuk semua laporan dan UPT
+    const folderLinks = {
+      ratrb: {
+        "manokwari": "https://drive.google.com/drive/folders/XXXX",
+        "sorong": "https://drive.google.com/drive/folders/YYYY",
+        "fakfak": "https://drive.google.com/drive/folders/ZZZZ",
+        "kaimana": "https://drive.google.com/drive/folders/AAAA",
+        "bapas-manokwari": "https://drive.google.com/drive/folders/BBBB",
+        "bapas-sorong": "https://drive.google.com/drive/folders/CCCC"
+      },
+      anggaran: {
+        "manokwari": "https://drive.google.com/drive/folders/DDDD",
+        "sorong": "https://drive.google.com/drive/folders/EEEE"
+        // dst...
+      },
+      publikasi: {
+        "manokwari": "https://drive.google.com/drive/folders/FFFF",
+        "sorong": "https://drive.google.com/drive/folders/GGGG"
+      },
+      teknis: {
+        "manokwari": "https://drive.google.com/drive/folders/HHHH",
+        "sorong": "https://drive.google.com/drive/folders/JJJJ"
+      }
+    };
+
+    // Event listener global untuk semua dropdown
+    document.querySelectorAll(".dropdown").forEach(select => {
+      select.addEventListener("change", e => {
+        const reportType = e.target.dataset.type;
+        const selectedUPT = e.target.value;
+        const button = document.querySelector(`[data-btn="${reportType}"]`);
+
+        if (selectedUPT && folderLinks[reportType][selectedUPT]) {
+          button.href = folderLinks[reportType][selectedUPT];
+          button.classList.remove("opacity-50", "pointer-events-none");
+          button.textContent = "Buka Folder UPT";
+        } else {
+          button.href = "#";
+          button.classList.add("opacity-50", "pointer-events-none");
+          button.textContent = "Lihat Folder";
+        }
       });
+    });
   </script>
 </body>
 </html>
