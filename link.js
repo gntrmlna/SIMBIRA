@@ -41,7 +41,7 @@ function calculateProgress(data, jenisLaporanFilter, periodeTipeFilter) {
     row.periode_tipe.toLowerCase() === periodeTipeFilter
   );
 
-  const totalWajib = subset.filter(row => row.wajib_lapor.toLowerCase() === "ya").length;
+  const totalWajib = 12;
   const totalMasuk = subset.filter(row => row.sudah_upload.toLowerCase() === "ya").length;
 
   const persen = totalWajib === 0
