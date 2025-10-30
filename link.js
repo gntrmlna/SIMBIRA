@@ -4,6 +4,100 @@
 // 1. URL CSV publik dari step publish to web
 const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQVXOYGE5Zb3EeamUFQMEDG_yZEUm-lJ0J_l7jk_pSrOnaBaYbGUmjzDvow48cITMIdkHAeuq2j_CnZ/pub?gid=0&single=true&output=csv";
 
+// TOTAL UPT tetap
+const TOTAL_UPT = 12;
+
+// Master list UPT (lowercase, sama persis dengan value di <option> & kolom 'upt' di Sheet)
+const MASTER_UPT = [
+  "lapas manokwari",
+  "lapas sorong",
+  "lapas fakfak",
+  "lapas kaimana",
+  "lapas teminabuan",
+  "bapas manokwari",
+  "bapas sorong",
+  "bapas fakfak",
+  "kanwil",
+  "lpka",
+  "lpp",
+  "rutan bintuni"
+  // …tambahkan jika memang ada >6; total keseluruhan harus 12
+];
+
+// helper tampilan
+function capitalizeUPT(upt) { return upt.replace(/\b\w/g, c => c.toUpperCase()); }
+function prettyJenis(jenis) {
+  switch (jenis) {
+    case "rat-rb": return "RAT-RB";
+    case "realisasi-anggaran": return "Realisasi Anggaran";
+    case "publikasi": return "Publikasi";
+    case "teknis": return "Laporan Teknis Rutin";
+    default: return jenis;
+  }
+}
+
+// hitung & bentuk ringkasan 1 jenis laporan (periode terbaru)
+function generateSummaryForJenis(data, jenis, tipe) {
+  // pakai calculateProgress agar konsisten
+  const prog = calculateProgress(data, jenis, tipe);
+
+  // Belum setor = MASTER_UPT - uploadedSet (pakai nama UPT dari master)
+  const belumSetor = MASTER_UPT
+    .filter(u => !prog.uploadedSet.has(u))
+    .slice(0); // clone
+
+  // Judul rapi
+  const pretty = (j) => ({
+    "rat-rb": "RAT-RB",
+    "realisasi-anggaran": "Realisasi Anggaran",
+    "publikasi": "Publikasi",
+    "teknis": "Laporan Teknis Rutin",
+  }[j] || j);
+
+  return {
+    judul: `${pretty(jenis)} — ${prog.latestLabel || "-"}`,
+    persen: prog.persen,
+    masuk: prog.masuk,
+    total: prog.total,
+    belumSetor
+  };
+}
+
+function renderSummarySection(data) {
+  const target = document.getElementById("laporan-ringkas");
+  if (!target) return;
+
+  const configs = [
+    ["rat-rb", "triwulan"],
+    ["realisasi-anggaran", "mingguan"],
+    ["publikasi", "bulanan"],
+    ["teknis", "bulanan"], // insidentil ditampilkan di card Teknis
+  ];
+
+  target.innerHTML = "";
+  configs.forEach(([jenis, tipe]) => {
+    const s = generateSummaryForJenis(data, jenis, tipe);
+    if (!s) return;
+
+    const cap = (str) => (str || "").replace(/\b\w/g, c => c.toUpperCase());
+    const belumText = s.belumSetor.length
+      ? "Belum setor: " + s.belumSetor.map(cap).join(", ")
+      : "Semua UPT sudah setor ✅";
+
+    const block = document.createElement("div");
+    block.className = "p-4 border rounded-xl";
+    block.innerHTML = `
+      <div class="flex items-center justify-between mb-1">
+        <p class="font-medium text-[#07213D]">${s.judul}</p>
+        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-0.5 rounded">${s.persen}%</span>
+      </div>
+      <p class="text-gray-700 text-sm mb-1">${s.masuk} dari ${s.total} UPT sudah setor</p>
+      <p class="text-gray-500 text-xs italic">${belumText}</p>
+    `;
+    target.appendChild(block);
+  });
+}
+
 // 2. helper: ambil CSV & ubah jadi array objek JS
 async function loadRekapData() {
   const res = await fetch(CSV_URL);
@@ -32,32 +126,40 @@ async function loadRekapData() {
 }
 
 // 3. hitung progress untuk 1 jenis laporan
-function calculateProgress(data, jenisLaporanFilter, periodeTipeFilter) {
-  // kita ambil baris yang cocok dengan jenis laporan & periode tipenya
-  // NOTE: kalau mau fix periode spesifik (misal Triwulan III 2025 aja),
-  // kamu bisa tambah filter periode_label atau tahun.
-  const subset = data.filter(row =>
-    row.jenis_laporan.toLowerCase() === jenisLaporanFilter &&
-    row.periode_tipe.toLowerCase() === periodeTipeFilter
+function calculateProgress(data, jenis, tipe) {
+  const subset = data.filter(r =>
+    (r.jenis_laporan || "").toLowerCase() === jenis &&
+    (r.periode_tipe || "").toLowerCase() === tipe
   );
 
-  const totalWajib = 12;
-  const totalMasuk = subset.filter(row => row.sudah_upload.toLowerCase() === "ya").length;
-
-  const persen = totalWajib === 0
-    ? 0
-    : Math.round((totalMasuk / totalWajib) * 100);
-
-  // Ambil label periode terbaru (misal "Triwulan III 2025")
-  // anggap data paling bawah/belum disort: kita ambil yang terakhir aja
+  // Tentukan periode aktif dari baris terakhir
   let latestLabel = "";
-  if (subset.length > 0) {
-    const lastRow = subset[subset.length - 1];
-    latestLabel = `${lastRow.periode_label} ${lastRow.tahun}`.trim();
+  let latestYear  = "";
+  if (subset.length) {
+    const last = subset[subset.length - 1];
+    latestLabel = (last.periode_label || "").trim();
+    latestYear  = (last.tahun || "").trim();
   }
 
-  return { persen, totalMasuk, totalWajib, latestLabel };
+  // Ambil hanya baris untuk periode aktif
+  const latestSubset = subset.filter(r =>
+    (r.periode_label || "").trim() === latestLabel &&
+    (r.tahun || "").trim() === latestYear
+  );
+
+  // Hitung UPT yang sudah upload (unique per UPT)
+  const uploadedSet = new Set(
+    latestSubset
+      .filter(r => (r.sudah_upload || "").toLowerCase() === "ya")
+      .map(r => (r.upt || "").toLowerCase().trim())
+  );
+
+  const masuk = uploadedSet.size;
+  const persen = Math.round((masuk / TOTAL_UPT) * 100);
+
+  return { persen, masuk, total: TOTAL_UPT, latestLabel: `${latestLabel} ${latestYear}`.trim(), uploadedSet };
 }
+
 
 // 4. render progress bar ke UI
 function renderProgress(prefix, prog) {
@@ -147,6 +249,8 @@ async function initDashboard() {
   // Teknis insidentil list
   const insidentilList = extractInsidentil(data);
   renderInsidentil(insidentilList);
+
+  renderSummarySection(data);
 }
 
 // panggil
@@ -229,5 +333,13 @@ document.querySelectorAll(".dropdown").forEach(select => {
       button.textContent = "Buka Folder";
     }
   });
+
+  
+
+// panggil dari initDashboard() setelah data Sheet di-load
+// contoh:
+// const data = await loadRekapData();
+// ...updateProgressBar & renderInsidentil...
+// renderSummarySection(data);
 });
 
